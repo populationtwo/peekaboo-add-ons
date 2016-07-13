@@ -70,15 +70,13 @@ class Peekaboo_Custom_Post_Type {
 		/* Define custom functionality.
 		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		 */
-		//		add_action( 'init', array( $this, 'peekaboo_register_post_type_ministry' ) );
-		//		add_action( 'init', array( $this, 'peekaboo_ministry_group_taxonomy' ) );
-		//		add_action( 'init', array( $this, 'peekaboo_register_post_type_slides' ) );
+		add_action( 'init', array( $this, 'pkb_register_post_type_slides' ) );
 		add_action( 'init', array( $this, 'pkb_register_post_type_gallery' ) );
-		add_action( 'init', array( $this, 'pkb_gallery_taxonomies' ) );
-		
 		add_action( 'init', array( $this, 'pkb_register_post_type_testimonial' ) );
-		//		add_filter( 'post_updated_messages', array( $this, 'peekaboo_ministry_updated_messages' ) );
-		//		add_filter( 'post_updated_messages', array( $this, 'peekaboo_slide_updated_messages' ) );
+
+		add_action( 'init', array( $this, 'pkb_gallery_taxonomies' ) );
+
+		add_filter( 'post_updated_messages', array( $this, 'pkb_slide_updated_messages' ) );
 		add_filter( 'post_updated_messages', array( $this, 'pkb_gallery_updated_messages' ) );
 		add_filter( 'post_updated_messages', array( $this, 'pkb_testimonial_updated_messages' ) );
 
@@ -129,126 +127,27 @@ class Peekaboo_Custom_Post_Type {
 
 	}
 
-	public function peekaboo_register_post_type_ministry() {
-
-		$labels = array(
-			'name'               => _x( 'Ministries', 'Post Type General Name', 'peekaboo' ),
-			'singular_name'      => _x( 'Ministry', 'Post Type Singular Name', 'peekaboo' ),
-			'menu_name'          => __( 'Ministry', 'peekaboo' ),
-			'parent_item_colon'  => __( 'Parent Ministry:', 'peekaboo' ),
-			'all_items'          => __( 'All Ministries:', 'peekaboo' ),
-			'view_item'          => __( 'View Ministry', 'peekaboo' ),
-			'add_new_item'       => __( 'Add New Ministry', 'peekaboo' ),
-			'add_new'            => __( 'New Ministry', 'peekaboo' ),
-			'edit_item'          => __( 'Edit Ministry', 'peekaboo' ),
-			'update_item'        => __( 'Update Ministry', 'peekaboo' ),
-			'search_items'       => __( 'Search ministries', 'peekaboo' ),
-			'not_found'          => __( 'No ministries found', 'peekaboo' ),
-			'not_found_in_trash' => __( 'No ministries found in Trash', 'peekaboo' ),
-		);
-		$args   = array(
-			'label'              => __( 'ministry', 'peekaboo' ),
-			'description'        => __( 'Ministry information pages', 'peekaboo' ),
-			'labels'             => $labels,
-			'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
-			'taxonomies'         => array( 'group' ),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'query_var'          => true,
-			'rewrite'            => true,
-			'capability_type'    => 'post',
-			'hierarchical'       => false,
-			'menu_position'      => 5,
-			'menu_icon'          => 'dashicons-awards'
-		);
-		register_post_type( __( 'ministry', 'peekaboo' ), $args );
-
-	}
-
-	public function peekaboo_ministry_group_taxonomy() {
-
-		$labels = array(
-			'name'                       => _x( 'Groups', 'Taxonomy General Name', 'peekaboo' ),
-			'singular_name'              => _x( 'Group', 'Taxonomy Singular Name', 'peekaboo' ),
-			'menu_name'                  => __( 'Group', 'peekaboo' ),
-			'all_items'                  => __( 'All Groups', 'peekaboo' ),
-			'parent_item'                => __( 'Parent Group', 'peekaboo' ),
-			'parent_item_colon'          => __( 'Parent Group:', 'peekaboo' ),
-			'new_item_name'              => __( 'New Group Name', 'peekaboo' ),
-			'add_new_item'               => __( 'Add New Group', 'peekaboo' ),
-			'edit_item'                  => __( 'Edit Group', 'peekaboo' ),
-			'update_item'                => __( 'Update Group', 'peekaboo' ),
-			'separate_items_with_commas' => __( 'Separate groups with commas', 'peekaboo' ),
-			'search_items'               => __( 'Search groups', 'peekaboo' ),
-			'add_or_remove_items'        => __( 'Add or remove groups', 'peekaboo' ),
-			'choose_from_most_used'      => __( 'Choose from the most used groups', 'peekaboo' ),
-			'not_found'                  => __( 'Not Found', 'peekaboo' ),
-		);
-		$args   = array(
-			'labels'            => $labels,
-			'hierarchical'      => true,
-			'public'            => true,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
-			'show_tagcloud'     => true,
-		);
-		register_taxonomy( __( 'ministry-group', 'peekaboo' ), array( __( 'ministry', 'peekaboo' ) ), $args );
-	}
-
-	public function peekaboo_ministry_updated_messages() {
-
-		global $post;
-
-		$messages[ __( 'ministry', 'peekaboo' ) ] =
-			array(
-				0  => '', // Unused. Messages start at index 1.
-				1  => sprintf( __( 'Ministry updated. <a href="%s">View ministry</a>', 'peekaboo' ), esc_url( get_permalink() ) ),
-				2  => __( 'Custom field updated.', 'peekaboo' ),
-				3  => __( 'Custom field deleted.', 'peekaboo' ),
-				4  => __( 'Ministry updated.', 'peekaboo' ),
-				/* translators: %s: date and time of the revision */
-				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Ministry restored to revision from %s', 'peekaboo' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-				6  => sprintf( __( 'Ministry published. <a href="%s">View ministry</a>', 'peekaboo' ), esc_url( get_permalink() ) ),
-				7  => __( 'Ministry saved.', 'peekaboo' ),
-				8  => sprintf( __( 'Ministry submitted. <a target="_blank" href="%s">Preview ministry</a>', 'peekaboo' ), esc_url( add_query_arg( 'preview', 'true', get_permalink() ) ) ),
-				9  => sprintf(
-					__( 'Ministry scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview ministry</a>', 'peekaboo' ),
-					// translators: Publish box date format, see http://php.net/date
-					date_i18n( __( 'M j, Y @ G:i', 'peekaboo' ), strtotime( $post->post_date ) ), esc_url( get_permalink() )
-				),
-				10 => sprintf( __( 'Ministry draft updated. <a target="_blank" href="%s">Preview ministry</a>', 'peekaboo' ), esc_url( add_query_arg( 'preview', 'true', get_permalink() ) ) ),
-			);
-
-		return $messages;
 
 
-	}
-
-	public function peekaboo_register_post_type_slides() {
-
-		$labels = array(
-			'name'               => _x( 'Slides', 'Post Type General Name', 'peekaboo' ),
-			'singular_name'      => _x( 'Slide', 'Post Type Singular Name', 'peekaboo' ),
-			'menu_name'          => __( 'Slide', 'peekaboo' ),
-			'parent_item_colon'  => __( 'Parent Slide:', 'peekaboo' ),
-			'all_items'          => __( 'All Slides:', 'peekaboo' ),
-			'view_item'          => __( 'Slide', 'peekaboo' ),
+public function pkb_register_post_type_slides() {
+		$labels     = array(
+			'name'               => __( 'Slides', 'peekaboo' ),
+			'singular_name'      => __( 'Slide', 'peekaboo' ),
+			'rewrite'            => array( 'slug' => __( 'Slides', 'peekaboo' ) ),
+			'add_new'            => _x( 'Add New', 'Slide', 'peekaboo' ),
 			'add_new_item'       => __( 'Add New Slide', 'peekaboo' ),
-			'add_new'            => __( 'New Slide', 'peekaboo' ),
 			'edit_item'          => __( 'Edit Slide', 'peekaboo' ),
-			'update_item'        => __( 'Update Slide', 'peekaboo' ),
-			'search_items'       => __( 'Search slides', 'peekaboo' ),
+			'new_item'           => __( 'New Slide', 'peekaboo' ),
+			'view_item'          => __( 'View Slide', 'peekaboo' ),
+			'search_items'       => __( 'Search Slides', 'peekaboo' ),
 			'not_found'          => __( 'No slides found', 'peekaboo' ),
 			'not_found_in_trash' => __( 'No slides found in Trash', 'peekaboo' ),
+			'parent_item_colon'  => ''
 		);
-
-		$args = array(
-			'label'              => __( 'slide', 'peekaboo' ),
-			'description'        => __( 'Slide information pages', 'peekaboo' ),
+		$taxonomies = array();
+		$supports   = array( 'title', 'thumbnail', 'custom-fields' );
+		$args       = array(
 			'labels'             => $labels,
-			'supports'           => array( 'title', 'thumbnail', 'custom-fields' ),
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
@@ -257,20 +156,18 @@ class Peekaboo_Custom_Post_Type {
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
 			'menu_position'      => 5,
-			'menu_icon'          => 'dashicons-format-image'
+			'supports'           => $supports,
+			'taxonomies'         => $taxonomies
 
 		);
 
 		register_post_type( __( 'slide', 'peekaboo' ), $args );
-
-
 	}
 
-	public function peekaboo_slide_updated_messages() {
-
+public function pkb_slide_updated_messages( $messages ) {
 		global $post;
 
-		$messages[ __( 'slide' ) ] =
+		$messages[ __( 'slide', 'peekaboo' ) ] =
 			array(
 				0  => '', // Unused. Messages start at index 1.
 				1  => sprintf( __( 'Slide updated. <a href="%s">View slide</a>', 'peekaboo' ), esc_url( get_permalink() ) ),
@@ -282,16 +179,13 @@ class Peekaboo_Custom_Post_Type {
 				6  => sprintf( __( 'Slide published. <a href="%s">View slide</a>', 'peekaboo' ), esc_url( get_permalink() ) ),
 				7  => __( 'Slide saved.', 'peekaboo' ),
 				8  => sprintf( __( 'Slide submitted. <a target="_blank" href="%s">Preview slide</a>', 'peekaboo' ), esc_url( add_query_arg( 'preview', 'true', get_permalink() ) ) ),
-				9  => sprintf(
-					__( 'Slide scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview slide</a>', 'peekaboo' ),
+				9  => sprintf( __( 'Slide scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview slide</a>', 'peekaboo' ),
 					// translators: Publish box date format, see http://php.net/date
-					date_i18n( __( 'M j, Y @ G:i', 'peekaboo' ), strtotime( $post->post_date ) ), esc_url( get_permalink() )
-				),
+					date_i18n( __( 'M j, Y @ G:i', 'peekaboo' ), strtotime( $post->post_date ) ), esc_url( get_permalink() ) ),
 				10 => sprintf( __( 'Slide draft updated. <a target="_blank" href="%s">Preview slide</a>', 'peekaboo' ), esc_url( add_query_arg( 'preview', 'true', get_permalink() ) ) ),
 			);
 
 		return $messages;
-
 
 	}
 

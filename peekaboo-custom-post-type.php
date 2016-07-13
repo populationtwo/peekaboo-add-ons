@@ -34,6 +34,8 @@ if ( ! defined( 'WPINC' ) ) {
  *----------------------------------------------------------------------------*/
 
 require_once( plugin_dir_path( __FILE__ ) . 'public/class-peekaboo-custom-post-type.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/foundation-shortcode.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/peekaboo-shortcode.php' );
 
 /*
  * Register hooks that are fired when the plugin is activated or deactivated.
