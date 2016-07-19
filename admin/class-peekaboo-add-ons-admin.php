@@ -1,135 +1,108 @@
 <?php
+
 /**
- * Peekaboo_Custom_Post_Type
+ * The admin-specific functionality of the plugin.
  *
- * @package   Peekaboo_Custom_Post_Type
- * @author    Population2 <populationtwo@gmail.com>
- * @license   GPL-2.0+
- * @link      http://population-2.com
- * @copyright 2014 Population2
+ * @link       http://population-2.com
+ * @since      1.0.0
+ *
+ * @package    Peekaboo_Add_Ons
+ * @subpackage Peekaboo_Add_Ons/admin
  */
 
 /**
- * Peekaboo_Custom_Post_Type class. This class should ideally be used to work with the
- * public-facing side of the WordPress site.
+ * The admin-specific functionality of the plugin.
  *
- * If you're interested in introducing administrative or dashboard
- * functionality, then refer to `class-peekaboo-custom-post-type-admin.php`
+ * Defines the plugin name, version, and two examples hooks for how to
+ * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package Peekaboo_Custom_Post_Type
- * @author  Population2 <populationtwo@gmail.com>
+ * @package    Peekaboo_Add_Ons
+ * @subpackage Peekaboo_Add_Ons/admin
+ * @author     Population2 <info@population-2.com>
  */
-class Peekaboo_Custom_Post_Type {
+class Peekaboo_Add_Ons_Admin {
 
 	/**
-	 * Plugin version, used for cache-busting of style and script file references.
+	 * The ID of this plugin.
 	 *
-	 * @since   1.0.0
-	 *
-	 * @var     string
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
-	const VERSION = '0.0.1';
+	private $plugin_name;
 
 	/**
-	 * Unique identifier for your plugin.
+	 * The version of this plugin.
 	 *
-	 *
-	 * The variable name is used as the text domain when internationalizing strings
-	 * of text. Its value should match the Text Domain file header in the main
-	 * plugin file.
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $version The current version of this plugin.
+	 */
+	private $version;
+
+	/**
+	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 *
-	 * @var      string
+	 * @param      string $plugin_name The name of this plugin.
+	 * @param      string $version     The version of this plugin.
 	 */
-	protected $plugin_slug = 'peekaboo-custom-post-type';
+	public function __construct( $plugin_name, $version ) {
 
-	/**
-	 * Instance of this class.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      object
-	 */
-	protected static $instance = null;
-
-	/**
-	 * Initialize the plugin by setting localization and loading public scripts
-	 * and styles.
-	 *
-	 * @since     1.0.0
-	 */
-	private function __construct() {
-
-		// Load plugin text domain
-		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
-		// Activate plugin when new blog is added
-		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
-
-		/* Define custom functionality.
-		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
-		 */
-		add_action( 'init', array( $this, 'pkb_register_post_type_slides' ) );
-		add_action( 'init', array( $this, 'pkb_register_post_type_gallery' ) );
-		add_action( 'init', array( $this, 'pkb_register_post_type_testimonial' ) );
-
-		add_action( 'init', array( $this, 'pkb_gallery_taxonomies' ) );
-
-		add_filter( 'post_updated_messages', array( $this, 'pkb_slide_updated_messages' ) );
-		add_filter( 'post_updated_messages', array( $this, 'pkb_gallery_updated_messages' ) );
-		add_filter( 'post_updated_messages', array( $this, 'pkb_testimonial_updated_messages' ) );
-
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
 
 	}
 
 	/**
-	 * Return the plugin slug.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    Plugin slug variable.
-	 */
-	public function get_plugin_slug() {
-		return $this->plugin_slug;
-	}
-
-	/**
-	 * Return an instance of this class.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    object    A single instance of this class.
-	 */
-	public static function get_instance() {
-
-		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance ) {
-			self::$instance = new self;
-		}
-
-		return self::$instance;
-	}
-
-
-	/**
-	 * Load the plugin text domain for translation.
+	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+//	public function enqueue_styles() {
+//
+//		/**
+//		 * This function is provided for demonstration purposes only.
+//		 *
+//		 * An instance of this class should be passed to the run() function
+//		 * defined in Peekaboo_Add_Ons_Loader as all of the hooks are defined
+//		 * in that particular class.
+//		 *
+//		 * The Peekaboo_Add_Ons_Loader will then create the relationship
+//		 * between the defined hooks and the functions defined in this
+//		 * class.
+//		 */
+//
+//		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/peekaboo-add-ons-admin.css', array(), $this->version, 'all' );
+//
+//	}
 
-		$domain = $this->plugin_slug;
-		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    1.0.0
+	 */
+//	public function enqueue_scripts() {
+//
+//		/**
+//		 * This function is provided for demonstration purposes only.
+//		 *
+//		 * An instance of this class should be passed to the run() function
+//		 * defined in Peekaboo_Add_Ons_Loader as all of the hooks are defined
+//		 * in that particular class.
+//		 *
+//		 * The Peekaboo_Add_Ons_Loader will then create the relationship
+//		 * between the defined hooks and the functions defined in this
+//		 * class.
+//		 */
+//
+//		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/peekaboo-add-ons-admin.js', array( 'jquery' ), $this->version, false );
+//
+//	}
 
-		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
-		load_plugin_textdomain( $domain, false, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
 
-	}
-
-
-
-public function pkb_register_post_type_slides() {
+	public function pkb_register_post_type_slides() {
 		$labels     = array(
 			'name'               => __( 'Slides', 'peekaboo' ),
 			'singular_name'      => __( 'Slide', 'peekaboo' ),
@@ -164,7 +137,7 @@ public function pkb_register_post_type_slides() {
 		register_post_type( __( 'slide', 'peekaboo' ), $args );
 	}
 
-public function pkb_slide_updated_messages( $messages ) {
+	public function pkb_slide_updated_messages( $messages ) {
 		global $post;
 
 		$messages[ __( 'slide', 'peekaboo' ) ] =
@@ -319,6 +292,4 @@ public function pkb_slide_updated_messages( $messages ) {
 		return $messages;
 
 	}
-
-
 }

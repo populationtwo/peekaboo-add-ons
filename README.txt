@@ -1,39 +1,27 @@
-=== Peekaboo Custom Post Type ===
-Contributors: population2
+=== Plugin Name ===
+Contributors: Population2
+Donate link: http://population-2.com
 Tags: comments, spam
-Requires at least: 3.6
-Tested up to: 4.5
-Stable tag: 1.0.0
+Requires at least: 3.0.1
+Tested up to: 3.4
+Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Plugin to create custom post type and taxonomy on Peekaboo theme.
+Peekaboo theme add-ons. This plugin enable the Custom Post Types and Shortcodes in Peekaboo theme.
 
 == Installation ==
 
-= Using The WordPress Dashboard =
+This section describes how to install the plugin and get it working.
 
-1. Navigate to the 'Add New' in the plugins dashboard
-2. Search for 'Peekaboo Custom Post Type'
-3. Click 'Install Now'
-4. Activate the plugin on the Plugin dashboard
+e.g.
 
-= Uploading in WordPress Dashboard =
+1. Upload `peekaboo-add-ons.php` to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
 
-1. Navigate to the 'Add New' in the plugins dashboard
-2. Navigate to the 'Upload' area
-3. Select `peekaboo-custom-post-type.zip` from your computer
-4. Click 'Install Now'
-5. Activate the plugin in the Plugin dashboard
-
-= Using FTP =
-
-1. Download `peekaboo-custom-post-type.zip`
-2. Extract the `peekaboo-custom-post-type` directory to your computer
-3. Upload the `peekaboo-custom-post-type` directory to the `/wp-content/plugins/` directory
-4. Activate the plugin in the Plugin dashboard
 
 == Changelog ==
 
 = 1.0 =
-* Initial release
+* Initial relelase
