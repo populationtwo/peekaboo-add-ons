@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Peekaboo Add-ons
  * Plugin URI:        https://github.com/populationtwo/peekaboo-add-ons
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Peekaboo Add-ons will create Custom Post Types and Shortcodes.
  * Version:           1.0.0
  * Author:            Population2
  * Author URI:        http://population-2.com
